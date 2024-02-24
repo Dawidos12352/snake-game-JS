@@ -38,6 +38,7 @@ function startGame(){
             rowEl.append(cellEl)
         }
         board.append(rowEl)
+        console.log(board)
     }
 }
 
