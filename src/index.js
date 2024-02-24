@@ -16,6 +16,12 @@ const randomCordinate = (min = 1, max = GAME_SIZE - 2 ) => {
     return Math.floor(Math.random() * (max - min + 1) + min)
 }
 
+const resetSnakePosition = () => {
+    snakePosition = [
+        {x : Math.floor(GAME_SIZE / 2), y: Math.floor(GAME_SIZE / 2)}
+    ];
+};
+
 
 function startGame(){
     direction ="";
@@ -38,8 +44,24 @@ function startGame(){
             rowEl.append(cellEl)
         }
         board.append(rowEl)
-        console.log(board)
     }
+
+resetSnakePosition()
+
+    gameLoop = setInterval(() => {
+        updateBoard();
+    }, DIFFICULTY_LOOP_MS)
+}
+
+const updateBoard = () => {
+    gameBoard.forEach((row) => {
+        row.forEach((cell) => {
+            cell.classList = "cell"
+        })
+    });
+    snakePosition.forEach(({x, y}) => {
+        gameBoard[x][y].classList.add("snake")
+    })
 }
 
 window.addEventListener("load" , () => {
