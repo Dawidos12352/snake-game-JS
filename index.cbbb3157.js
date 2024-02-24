@@ -1,2 +1,0 @@
-let e,t,n="",d=0;window.addEventListener("load",(()=>{e=document.querySelector("#board"),function(){n="",e.innerHTML="",t=[],d=0;for(let n=0;n<=21;n++){const d=document.createElement("div");d.classList.add("row");for(let e=0;e<21;e++){const o=document.createElement("div");o.classList.add("cell"),o.innerText=`${e} / ${n}`,t[e]||(t[e]=[]),t[e][n]=o,d.append(o)}e.append(d)}}()}));
-//# sourceMappingURL=index.cbbb3157.js.map

@@ -1,0 +1,2 @@
+!function(){var e,n;window.addEventListener("load",(function(){e=document.querySelector("#board"),function(){"",e.innerHTML="",n=[],0;for(var a=0;a<=21;a++){var o=document.createElement("div");o.classList.add("row");for(var t=0;t<21;t++){var c=document.createElement("div");c.classList.add("cell"),c.innerText="".concat(t," / ").concat(a),n[t]||(n[t]=[]),n[t][a]=c,o.append(c)}e.append(o),console.log(e)}}()}))}();
+//# sourceMappingURL=index.37749394.js.map
