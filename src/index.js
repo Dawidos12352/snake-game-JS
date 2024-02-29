@@ -1,3 +1,4 @@
+import Toastify from 'toastify-js'
 
 const GAME_SIZE = 21;
 let DIFFICULTY_LOOP_MS = 100;
@@ -31,6 +32,7 @@ const generateNewFood =() => {
     } while(snakePos.find(el => el.x === x && el.y === y));
     foodPos.x = x;
     foodPos.y = y;
+    score += 1;
 
 }
 
@@ -47,7 +49,7 @@ function startGame(){
         for(let x = 0; x < GAME_SIZE; x++) {
             const cellEl = document.createElement("div")
             cellEl.classList.add("cell")
-            cellEl.innerText = `${x} / ${y}`
+            // cellEl.innerText = `${x} / ${y}`
 
             if(!gameBoard[x]){
                 gameBoard[x] = []
@@ -60,12 +62,35 @@ function startGame(){
 
 resetSnakePosition()
 generateNewFood()
-
+clearInterval(gameLoop)
     gameLoop = setInterval(() => {
         calculateSnakePosition()
         updateBoard();
     }, DIFFICULTY_LOOP_MS)
 }
+const detectWallColision = (pos) => {
+    if(pos.x === GAME_SIZE ||
+         pos.y === GAME_SIZE ||
+          pos.x < 0 ||
+           pos.y < 0){
+        return true
+    }
+    return false
+}
+
+const collisionHandler = () => {
+    Toastify({
+        text: `GAME OVER with a score of ${score}`,
+        duration: 5000,
+    }).showToast();
+    startGame();
+}
+
+const foodColison = (pos) => pos.x === foodPos.x && pos.y === foodPos.y
+
+const detectOnSnakePositon = (pos) => 
+     snakePos.find((el, i) => el.x === pos.x && el.y === pos.y && i !== 0)
+
 
 const calculateSnakePosition = () => {
     const lastSegmentPosition = {
@@ -79,16 +104,31 @@ const calculateSnakePosition = () => {
                 pos.y -= 1;
             }
             if(direction === "left"){
-                pos.y -= 1;
+                pos.x -= 1;
             }
             if(direction === "down"){
-                pos.y -= 1;
+                pos.y += 1;
             }
             if(direction === "right"){
-                pos.y -= 1;
+                pos.x += 1;
             }
+
+            lastAppliedDirection = direction;
+        
+        if(detectWallColision(pos) || detectOnSnakePositon(pos)){
+            collisionHandler()
+            return;
         }
+    } else {
+        pos.x = snakePos[i -1].x;
+        pos.y = snakePos[i -1].y;
     }
+
+    if(foodColison(pos)) {
+        generateNewFood();
+        snakePos.push(lastSegmentPosition)
+    }
+}
 } 
 
 const updateBoard = () => {
